@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 public class StreamlineUserManagementAuthProvider implements AuthenticationProvider {
 
     @Autowired
-    private CustomUserDetailsService userDetailsService;
+    private StreamlineUserDetailsService userDetailsService;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {

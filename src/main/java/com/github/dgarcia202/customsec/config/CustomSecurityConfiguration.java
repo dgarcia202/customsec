@@ -1,6 +1,8 @@
 package com.github.dgarcia202.customsec.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -13,12 +15,23 @@ public class CustomSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private SiteMinderAuthenticationFilter siteMinderAuthenticationFilter;
 
+    //@Autowired
+    //private StreamlineUserManagementAuthProvider authProvider;
+
     @Autowired
-    private StreamlineUserManagementAuthProvider authProvider;
+    private StreamlineUserDetailsService userDetailsService;
+
+    @Override
+    @Bean
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(authProvider);
+        auth.parentAuthenticationManager(authenticationManagerBean())
+                //.authenticationProvider(authProvider)
+                .userDetailsService(userDetailsService);
     }
 
     @Override
